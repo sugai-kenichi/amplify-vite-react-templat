@@ -5,13 +5,13 @@ import { useAuthenticator } from '@aws-amplify/ui-react';
 import { fetchAuthSession } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
-const session = await fetchAuthSession();
+const { tokens: cognito_session } = await fetchAuthSession();
 
 function App() {
   const { user, signOut } = useAuthenticator();
-  const groups = session.tokens?.accessToken.payload['cognito:groups'] || [];
-
-  user.signInDetails
+  const groups = cognito_session?.accessToken?.payload['cognito:groups']as string[] | undefined;
+  console.log(cognito_session);
+  console.log(groups);
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function App() {
   return (
     <main>
       <h1>{user?.signInDetails?.loginId}'s todos</h1>
-      <h2>Group:{groups.toString()}</h2>
+      <h2>Group:{groups}</h2>
       <button onClick={createTodo}>+ new</button>
       <ul>
         {todos.map((todo) => (
