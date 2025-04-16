@@ -6,11 +6,12 @@ import { fetchAuthSession } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 const session = await fetchAuthSession();
-
+const groups = session.tokens?.accessToken.payload['cognito:groups'] || [];
 
 function App() {
   const { user, signOut } = useAuthenticator();
-  const groups = session.tokens?.accessToken.payload['cognito:groups'] || [];
+  
+  user.signInDetails
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
   useEffect(() => {
