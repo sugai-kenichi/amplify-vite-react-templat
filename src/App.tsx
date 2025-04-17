@@ -3,13 +3,14 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { useAuthenticator } from '@aws-amplify/ui-react';
 
-const client = generateClient<Schema>();
+const client = generateClient<Schema>({
+  authMode: 'userPool',
+});
 
 function App() {
   const { user, signOut } = useAuthenticator();
-
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
+  
   useEffect(() => {
     client.models.Todo.observeQuery().subscribe({
       next: (data) => setTodos([...data.items]),
@@ -20,7 +21,6 @@ function App() {
     client.models.Todo.create({ content: window.prompt("Todo content") });
   }
 
-    
   function deleteTodo(id: string) {
     client.models.Todo.delete({ id })
   }
