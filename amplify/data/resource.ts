@@ -13,7 +13,7 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       allow.groups(["Admin"]),
-      allow.groups(["Guest"]).to(["read", "get", "list"]),
+      allow.groups(["Guest"]).to(["read"]),
     ]),
     
     // .authorization((allow) => [allow.owner()]),
