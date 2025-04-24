@@ -1,9 +1,6 @@
 version: 1
 backend:
   phases:
-    preBuild:
-      commands:
-        - npm i -g @aws-amplify/cli
     build:
       commands:
         - npm i .npm --prefer-offline
